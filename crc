@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<string.h>
+void crc(char m[50],char g[50],char cs[50])
+{
+   int i,j;
+   char ts[50];
+   i=j=strlen(g);
+   strncpy(cs,m,strlen(g));
+   cs[j]='\0';
+   while(i<=strlen(m))
+   {
+     if(cs[0]=='1')
+       {
+          for(j=1;j<strlen(g);j++)
+          cs[j]=((cs[j]==g[j]) ? '0' :'1');
+          cs[j]='\0';
+       }
+       strncpy(ts,cs+1,strlen(cs));
+       strcpy(cs,ts);
+       cs[j-1]=m[i++];
+    }
+}
+int main()
+{
+   int glen,len,i;
+   char cs[50], m[50],t[50];
+   char g[50];//"CRC-12-1100000001111";
+   do{
+       printf("\n enter generating polynomial: ");
+       scanf("%s",g);
+       glen=strlen(g);
+       if(g[0]=='1' && g[glen-1]=='1')
+          break;
+       else
+          printf("enter valid polynomial:");
+     }while(1);
+    do
+    {
+        printf("\nenter data:");
+        scanf("%s",m);
+        len=strlen(m);
+        if(len<=glen)
+          printf("data length must be higher than polynomial length");
+        else
+          break;
+     }while(1);
+    strcpy(t,m);
+    len=strlen(m);
+    for(i=len;i<len+glen-1;i++)
+       m[i]='0';
+    m[i]='\0';
+    printf("\n after appending the zeroes modified data is: %s",m);
+    crc(m,g,cs);
+    strcat(t,cs);
+    printf("\n final encoded data at sender side:%s",t);
+    printf("\n enter the receiver side data:");
+    scanf("%s",t);
+    crc(t,g,cs);
+    printf("\n receiver side remainder: %s",cs);
+    if(strchr(cs,'1')==NULL)
+       printf("\n no error");
+    else
+       printf("\n error detected");
+}                                
+       

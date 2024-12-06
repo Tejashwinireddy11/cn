@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<string.h>
+int main(){
+char data[100],sdata[200]="",dsdata[100];
+int i,count=0,j=8;
+printf("Enter the data: ");
+scanf("%s",data);
+strcat(sdata,"01111110");
+for(i=0;i<strlen(data);i++){
+if(data[i]=='1'){
+count++;
+sdata[j++]=data[i];
+}
+else{
+count=0;
+sdata[j++]=data[i];
+}
+if(count==5){
+count=0;
+sdata[j++]='0';
+}
+}
+sdata[j]='\0';
+strcat(sdata,"01111110");
+printf("Data after bit stuffing :%s\n",sdata);
+count=0;j=0;
+for(i=8;i<strlen(sdata)-8;i++){
+if(sdata[i]=='1'){
+count++;
+dsdata[j++]=sdata[i];
+}
+else{
+count=0;
+dsdata[j++]=sdata[i];
+}
+if(count==5){
+count=0;
+i++;
+}
+}
+dsdata[j]='\0';
+printf("Data after bit destuffing:%s\n",dsdata);
+return 0;
+}

@@ -1,0 +1,34 @@
+#include<stdio.h>
+int main(){
+int drop=0,sent,nsec,bsize,bcount=0,i,inp[25],prate,pr;
+printf("Enter the Bucket size in KB:\n");
+scanf("%d",&bsize);
+printf("Enter the processing Rate in Mbps:\n");
+scanf("%d",&pr);
+prate=pr*125;
+printf("Enter the No.of seconds you want to simulate:\n");
+scanf("%d",&nsec);
+for(i=0;i<nsec;i++){
+printf("Enter the size of the packet entering at %d sec:\n",i+1);
+scanf("%d",&inp[i]);
+}
+for(i=0;i<nsec;i++){
+bcount+=inp[i];
+if(bcount>bsize){
+drop=bcount-bsize;
+bcount=bsize;
+}
+printf("At %d sec:\n",i+1);
+printf("data burst received in KB:%d\n",inp[i]);
+sent=(bcount<prate)?bcount:prate;
+printf("data sent:%d\n",sent);
+bcount=bcount-sent;
+printf("Data left:%d\n",bcount);
+printf("data dropped:%d\n",drop);
+drop=0;
+}
+if(bcount!=0){
+printf("%d data is sent at %d rate\n",bcount,pr);
+}
+printf("transmission completed successfully");
+}

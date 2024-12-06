@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include<string.h>
+int main()
+{
+    char msg[50],smsg[50],rmsg[50],temp[50];
+    char *token,*t;
+    int l,n;
+    printf("message:");
+   
+    gets(msg);
+    printf("\n original: %s",msg);
+    token=strtok(msg," ");
+    while(token!=NULL){
+        t=strtok(NULL," ");
+        l=strlen(token);
+        if(t==NULL){
+            sprintf(temp,"%d%s",l+1,token);
+        }
+        else{
+            sprintf(temp,"%d%s%c",l+2,token,' ');
+        }
+    strcat(smsg,temp);
+    token=t;
+    }
+    printf("\nsenger %s",smsg);
+    token=strtok(smsg," ");
+    while(token!=NULL){
+        sscanf(token,"%d%s",&n,temp);
+        t=strtok(NULL," ");
+        if(t!=NULL){
+            strcat(temp," ");
+        }
+        strcat(rmsg,temp);
+        token=t;
+    }
+    printf("\nreceiver :%s",rmsg);
+
+    return 0;
+}

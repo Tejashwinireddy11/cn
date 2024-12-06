@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+char data[50], stu[100], des[50];
+char flag = 'F', escape = 'E';
+printf("Enter the data: ");
+fgets(data, sizeof(data), stdin);
+data[strcspn(data, "\n")] = '\0'; // Remove trailing newline character
+
+int i, j = 0;
+stu[j++] = flag;
+for (i = 0; data[i] != '\0'; i++) {
+if (data[i] == flag || data[i] == escape) {
+stu[j++] = escape;
+stu[j++] = data[i];
+} else if (data[i] == ' ') {
+stu[j++] = flag;
+stu[j++] = flag;
+} else {
+stu[j++] = data[i];
+}
+}
+stu[j++] = flag;
+stu[j] = '\0'; // Null-terminate the stuffed data
+printf("Stuffed data is: %s\n", stu);
+
+j = 0;
+for (i = 1; stu[i] != '\0'; i++) { // Start from index 1 to skip the starting flag
+if (stu[i] == escape) {
+i++; // Skip the escape character
+des[j++] = stu[i];
+} else if (stu[i] == flag && stu[i + 1] == flag) {
+des[j++] = ' ';
+i++; // Skip the second flag
+} else if (stu[i] == flag) {
+// Skip single flag (start/end flag)
+continue;
+} else {
+des[j++] = stu[i];
+}
+}
+des[j] = '\0'; // Null-terminate the unstuffed data
+printf("Unstuffed data: %s\n", des);
+
+return 0;
+}
